@@ -1,0 +1,64 @@
+environment:
+  name: "idsgame-random-attack-v19"
+  entry_point: "IdsGameRandomAttackV19Env"
+  parameters:
+    render: false  
+    seed: 42          
+
+sarsa:
+  # Learning parameters
+  learning_rate: 0.001
+  gamma: 0.99  
+  epsilon:
+    start: 1.0
+    end: 0.01
+    decay: 0.995
+
+  # Training parameters
+  training:
+    num_episodes: 10000
+    max_steps_per_episode: 100
+    evaluation:
+      frequency: 1000  
+      episodes: 100   
+    
+  # State processing
+  state:
+    normalize_features: true
+    zero_mean_features: false
+    merged_ad_features: true  
+    
+  # Memory and batch settings
+  memory:
+    state_length: 1 
+    
+  # Logging
+  logging:
+    frequency: 100  
+    metrics:
+      - "episode_reward"
+      - "episode_steps"
+      - "epsilon"
+      - "defense_success_rate"
+      
+  # Model checkpointing
+  checkpoint:
+    frequency: 1000  
+    dir: "models/sarsa"
+
+# General logging settings
+logging:
+  level: "INFO"
+  dir: "logs"
+  console_output: true
+  save_to_file: true
+
+# Visualization settings
+visualization:
+  show_training_progress: true
+  save_plots: true
+  plots_dir: "plots"
+  metrics_to_plot:
+    - "episode_reward"
+    - "defense_success_rate"
+    - "epsilon"
